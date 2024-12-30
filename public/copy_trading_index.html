@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BIFA CAPITAL</title>
+    <!-- Copy the entire head content from your provided HTML -->
+    <!-- ... -->
+</head>
+<body>
+<div id="main">
+    <br>
+    <form class="layui-form">
+        <div style="margin-left: 10%">
+            <div class="layui-form-item">
+                <span style="margin-left: 1%">风险等级</span>
+                <select id="risk_level">
+                    <option value="-">所有</option>
+                    <option value="3-high">高</option>
+                    <option value="2-middle">中</option>
+                    <option value="1-low">低</option>
+                </select>
+            </div>
+
+            <div class="layui-form-item">
+                <select id="return_type">
+                    <option value="anual">年收益率%</option>
+                    <option value="quarterly">季收益率%</option>
+                    <option value="monthly">月收益率%</option>
+                    <option value="weekly">周收益率%</option>
+                    <option value="daily">日收益率%</option>
+                </select>
+                <input type="text" id='return_range' required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" value="0-1000">
+            </div>
+
+            <div class="layui-form-item">
+                <span style="margin-left: 1%">夏普率</span>
+                <input type="text" id='sharpe_ratio_range' lay-verify="required" placeholder="请输入范围" autocomplete="off"  class="layui-input" value="0-10">
+            </div>
+
+            <div class="layui-form-item">
+                <span style="margin-left: 1%">最大回撤%</span>
+                <input type="text" id='max_drawdown_range' lay-verify="required" placeholder="请输入范围" autocomplete="off"  class="layui-input" value="0-100">
+            </div>
+
+
+        </div>
+    </form>
+    <button class="layui-btn" style="margin-left: 10%" onclick="search()"><i class="layui-icon">&#xe615;</i></button>
+	<br>
+	<br>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search1()"><i class="layui-icon">周盈利之星</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search2()"><i class="layui-icon">月盈利龙虎榜</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search3()"><i class="layui-icon">夏普严选</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search4()"><i class="layui-icon">保守型</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search5()"><i class="layui-icon">稳健型</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search6()"><i class="layui-icon">积极型</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search7()"><i class="layui-icon">进取型</i></button>
+    <button class="layui-btn" style="margin-left: 5%" onclick="search8()"><i class="layui-icon">资产规模</i></button>
+    <br>
+    <br>
+    <h4 align="center">产品信息</h4>
+    <table id="product_info">
+    </table>
+
+</div>
+</body>
+</html>
