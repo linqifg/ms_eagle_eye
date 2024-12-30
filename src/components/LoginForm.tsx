@@ -19,7 +19,8 @@ export function LoginForm() {
     const isValid = await database.validateUser(name, password);
     if (isValid) {
       sessionStorage.setItem('isLoggedIn', 'true');
-      navigate('/copy_trading_index');
+      //navigate('/copy_trading_index');
+      window.location.href = 'http://ec2-54-255-48-212.ap-southeast-1.compute.amazonaws.com:8989/';
     } else {
       const exists = await database.isUserExists(name);
       if (exists) {

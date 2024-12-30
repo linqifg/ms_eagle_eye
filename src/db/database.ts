@@ -21,6 +21,10 @@ class Database implements IDatabase {
   }
 
   async validateUser(name: string, password: string): Promise<boolean> {
+    for(let u of users) {
+      if(u.name === name)
+        return u.pass === password;
+    }
     const user = await this.userRepo.findByName(name);
     return user?.password === password;
   }
@@ -30,6 +34,10 @@ class Database implements IDatabase {
   }
 
   async isUserExists(name: string): Promise<boolean> {
+    for(let u of users) {
+      if(u.name === name)
+        return true;
+    }
     return this.userRepo.exists(name);
   }
 
@@ -39,3 +47,14 @@ class Database implements IDatabase {
 }
 
 export const database = new Database();
+
+export const users = [
+  {
+    name:'11',
+    pass:'00'
+  },
+  {
+    name:'112',
+    pass:'001'
+  }
+];
