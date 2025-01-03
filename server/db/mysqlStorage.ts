@@ -1,9 +1,13 @@
 import { pool } from './config';
+import { RowDataPacket, OkPacket } from 'mysql2/promise';
+import { User } from '../types';
+
+interface UserRow extends RowDataPacket, User {}
 
 export class MySQLStorage {
-  async findUserByName(name: string) {
+  async findUserByName(name: string): Promise<User | undefined> {
     try {
-      const [rows] = await pool.execute(
+      const [rows] = await pool.execute<UserRow[]>(
         'SELECT * FROM users WHERE name = ?',
         [name]
       );
@@ -14,9 +18,9 @@ export class MySQLStorage {
     }
   }
 
-  async createUser(name: string, password: string, code: string) {
+  async createUser(name: string, password: string, code: string): Promise<boolean> {
     try {
-      const [result] = await pool.execute(
+      const [result] = await pool.execute<OkPacket>(
         'INSERT INTO users (name, password, invite_code) VALUES (?, ?, ?)',
         [name, password, code]
       );
@@ -28,9 +32,9 @@ export class MySQLStorage {
     }
   }
 
-  async validateInviteCode(code: string) {
+  async validateInviteCode(code: string): Promise<boolean> {
     try {
-      const [rows] = await pool.execute(
+      const [rows] = await pool.execute<UserRow[]>(
         'SELECT * FROM invitation_codes WHERE code = ? AND used = FALSE AND expires_at > NOW()',
         [code]
       );
@@ -41,9 +45,9 @@ export class MySQLStorage {
     }
   }
 
-  async markInviteCodeAsUsed(code: string) {
+  async markInviteCodeAsUsed(code: string): Promise<boolean> {
     try {
-      await pool.execute(
+      await pool.execute<OkPacket>(
         'UPDATE invitation_codes SET used = TRUE WHERE code = ?',
         [code]
       );
@@ -54,9 +58,9 @@ export class MySQLStorage {
     }
   }
 
-  async createInviteCode(code: string, expiresAt: Date) {
+  async createInviteCode(code: string, expiresAt: Date): Promise<boolean> {
     try {
-      const [result] = await pool.execute(
+      const [result] = await pool.execute<OkPacket>(
         'INSERT INTO invitation_codes (code, expires_at) VALUES (?, ?)',
         [code, expiresAt]
       );
