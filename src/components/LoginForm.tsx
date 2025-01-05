@@ -19,7 +19,8 @@ export function LoginForm() {
     try {
       await login(name, password);
       sessionStorage.setItem('isLoggedIn', 'true');
-      navigate('/copy_trading_index');
+      //navigate('/copy_trading_index');
+      window.location.href = 'http://ec2-54-255-48-212.ap-southeast-1.compute.amazonaws.com:8989/index2.html';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     }
