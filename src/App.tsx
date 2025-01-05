@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
 
 function App() {
   return (
@@ -11,10 +12,12 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route
-          path="/copy_trading_index"
+          path="/dashboard"
           element={
             <ProtectedRoute>
-              <iframe src="/copy_trading_index.html" className="w-full h-screen border-none" />
+              <Layout>
+                <iframe src="/copy_trading_index.html" className="w-full h-screen border-none" />
+              </Layout>
             </ProtectedRoute>
           }
         />

@@ -17,6 +17,12 @@ app.post('/api/register', async (req, res) => {
   try {
     const { name, password, code } = req.body;
     console.log('Registration attempt:', { name, code });
+
+    const user = await storage.findUserByName(name);
+    if (user) {
+      console.log('exist user:', user);
+      return res.status(500).json({ error: '用户名已存在' });
+    }
     
     if (code !== '0000') {
       const isValidCode = await storage.validateInviteCode(code);
@@ -55,11 +61,11 @@ app.post('/api/login', async (req, res) => {
       res.json({ success: true });
     } else {
       console.log('Login failed for user:', name);
-      res.status(401).json({ error: 'Invalid credentials' });
+      res.status(401).json({ error: '用户名和密码不正确' });
     }
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: '邀请码错误' });
   }
 });
 
