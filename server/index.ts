@@ -28,7 +28,7 @@ app.post('/api/register', async (req, res) => {
       const isValidCode = await storage.validateInviteCode(code);
       if (!isValidCode) {
         console.log('Invalid invitation code:', code);
-        return res.status(400).json({ error: 'Invalid invitation code' });
+        return res.status(400).json({ error: '邀请码错误' });
       }
     }
 
@@ -65,7 +65,7 @@ app.post('/api/login', async (req, res) => {
     }
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: '邀请码错误' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -92,4 +92,29 @@ app.post('/api/invite-code', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+app.post('/api/change-password', async (req, res) => {
+  try {
+    const { name, password} = req.body;
+    console.log('Registration attempt:', { name, password });
+
+    const user = await storage.findUserByName(name);
+    if (!user) {
+      console.log('exist user:', user);
+      return res.status(500).json({ error: '用户名不存在' });
+    }
+
+    const success = await storage.updatePassword(name, password);
+    if (success) {
+      console.log('Update Password successful for user:', name);
+      res.json({ success: true });
+    } else {
+      console.log('Update Password for user:', name);
+      res.status(400).json({ error: 'Update Password failed' });
+    }
+  } catch (error) {
+    console.error('Update Password error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });

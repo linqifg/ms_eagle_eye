@@ -58,6 +58,19 @@ export class MySQLStorage {
     }
   }
 
+  async updatePassword(name: string, password: string): Promise<boolean> {
+    try {
+      await pool.execute<OkPacket>(
+        'UPDATE users SET password = ? WHERE name = ?',
+        [password, name]
+      );
+      return true;
+    } catch (error) {
+      console.error('Error updating user password:', error);
+      return false;
+    }
+  }
+
   async createInviteCode(code: string, expiresAt: Date): Promise<boolean> {
     try {
       const [result] = await pool.execute<OkPacket>(
